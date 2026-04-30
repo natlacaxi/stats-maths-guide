@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide Statistiques — Seconde</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13151c;
+    --bg3: #1a1d28;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8e6e0;
+    --muted: #7a7880;
+    --accent: #5b8dee;
+    --accent2: #8fc7ff;
+    --accent-bg: rgba(91,141,238,0.1);
+    --accent-border: rgba(91,141,238,0.3);
+    --gold: #c9a84c;
+    --gold-bg: rgba(201,168,76,0.1);
+    --green: #4caf7d;
+    --green-bg: rgba(76,175,125,0.1);
+    --coral: #e06b6b;
+    --coral-bg: rgba(224,107,107,0.1);
+    --mono: 'DM Mono', monospace;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(91,141,238,0.15), transparent);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    background: var(--accent-bg);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1.2rem;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 0.8rem;
+  }
+  h1 em { font-style: italic; color: var(--accent2); }
+  .header-sub {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(13,15,20,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 14px 16px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  nav a:hover { color: var(--text); border-color: var(--border2); }
+  nav a.active { color: var(--accent2); border-color: var(--accent); }
+
+  /* LAYOUT */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 4rem;
+    animation: fadeup 0.5s ease both;
+  }
+  @keyframes fadeup {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section:nth-child(1) { animation-delay: 0.05s; }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.15s; }
+  .section:nth-child(4) { animation-delay: 0.2s; }
+  .section:nth-child(5) { animation-delay: 0.25s; }
+  .section:nth-child(6) { animation-delay: 0.3s; }
+  .section:nth-child(7) { animation-delay: 0.35s; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    flex-shrink: 0;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #fff;
+  }
+  h3 {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+
+  /* CARDS */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.25rem;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .card-name { font-size: 14px; font-weight: 600; color: #fff; }
+  .card-symbol {
+    font-size: 18px;
+    color: var(--accent2);
+    cursor: pointer;
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    border-radius: 8px;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .card-symbol:hover { background: rgba(91,141,238,0.2); }
+  .card-formula {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent2);
+    background: rgba(143,199,255,0.07);
+    border: 1px solid rgba(143,199,255,0.12);
+    border-radius: 6px;
+    padding: 5px 10px;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .card-formula:hover { background: rgba(143,199,255,0.12); }
+  .card-formula .copy-icon {
+    font-size: 10px;
+    color: var(--muted);
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .card-formula:hover .copy-icon { opacity: 1; }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 6px; }
+
+  /* SYMBOLS TABLE */
+  .symbols-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .sym-chip {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .sym-chip:hover { border-color: var(--accent-border); background: var(--accent-bg); }
+  .sym-char { font-size: 22px; color: #fff; line-height: 1; }
+  .sym-name { font-size: 11px; color: var(--muted); text-align: center; line-height: 1.3; }
+  .sym-code { font-family: var(--mono); font-size: 10px; color: var(--accent); }
+
+  /* TOAST */
+  #toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1e2535;
+    border: 1px solid var(--accent-border);
+    color: var(--accent2);
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* FORMULA TABLE */
+  .ftable-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  .ftable { width: 100%; border-collapse: collapse; }
+  .ftable th {
+    background: var(--bg3);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .ftable td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .ftable tr:last-child td { border-bottom: none; }
+  .ftable tr:hover td { background: var(--bg3); }
+  .ftable .fname { font-weight: 600; color: #fff; }
+  .ftable .fformula {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent2);
+    cursor: pointer;
+    background: rgba(143,199,255,0.06);
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  .ftable .fformula:hover { border-color: var(--accent-border); }
+  .ftable .fmath { font-size: 15px; color: var(--gold); }
+  .ftable .fdesc { color: var(--muted); font-size: 12px; }
+  .badge-new { font-size: 10px; background: var(--gold-bg); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); border-radius: 4px; padding: 1px 6px; margin-left: 6px; }
+  .badge-imp { font-size: 10px; background: var(--coral-bg); color: var(--coral); border: 1px solid rgba(224,107,107,0.3); border-radius: 4px; padding: 1px 6px; margin-left: 6px; }
+
+  /* TIP BOXES */
+  .tip {
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.65;
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .tip.blue { background: var(--accent-bg); border: 1px solid var(--accent-border); color: #9dbff5; }
+  .tip.gold { background: var(--gold-bg); border: 1px solid rgba(201,168,76,0.25); color: #d4b566; }
+  .tip.green { background: var(--green-bg); border: 1px solid rgba(76,175,125,0.25); color: #7dcea0; }
+  .tip.red { background: var(--coral-bg); border: 1px solid rgba(224,107,107,0.25); color: #e89090; }
+  .tip strong { color: #fff; }
+
+  /* EXAMPLE BOX */
+  .example {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .example-header {
+    background: rgba(255,255,255,0.03);
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .example-header::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .example-body { padding: 16px; }
+  .example-body p { font-size: 13px; color: var(--muted); margin-bottom: 6px; line-height: 1.7; }
+  .example-body p:last-child { margin-bottom: 0; }
+  .example-body strong { color: var(--text); }
+  .example-body .hi { color: var(--accent2); font-family: var(--mono); font-size: 12px; background: rgba(143,199,255,0.07); padding: 1px 6px; border-radius: 4px; }
+  .example-body .res { color: var(--gold); font-weight: 600; }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+
+  /* MATH NOTATION */
+  .math-formula {
+    font-size: 1.1rem;
+    color: var(--gold);
+    text-align: center;
+    padding: 1rem;
+    background: var(--gold-bg);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    margin: 10px 0;
+    font-family: 'Georgia', serif;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    header { padding: 3rem 1.2rem 2rem; }
+    .container { padding: 2rem 1.2rem 4rem; }
+    nav a { padding: 12px 12px; font-size: 12px; }
+    .cards { grid-template-columns: 1fr; }
+    .symbols-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div id="toast">Copié !</div>
+
+<header>
+  <div class="header-tag">Classe de Seconde · Mathématiques</div>
+  <h1>Guide <em>Statistiques</em></h1>
+  <p class="header-sub">Toutes les formules Excel, symboles mathématiques et notations — clique pour copier.</p>
+</header>
+
+<nav id="nav">
+  <a href="#symboles" class="active">Symboles</a>
+  <a href="#indicateurs">Indicateurs</a>
+  <a href="#excel">Formules Excel</a>
+  <a href="#ponderee">Série pondérée</a>
+  <a href="#dispersion">Dispersion</a>
+  <a href="#exemple">Exemple complet</a>
+  <a href="#pieges">Pièges</a>
+</nav>
+
+<div class="container">
+
+  <!-- SYMBOLES -->
+  <section class="section" id="symboles">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2>Symboles mathématiques</h2>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:1.2rem;">Clique sur un symbole pour le copier dans le presse-papiers.</p>
+
+    <h3>Statistiques descriptives</h3>
+    <div class="symbols-grid" style="margin-bottom:1.5rem;">
+      <div class="sym-chip" onclick="copyText('x̄','x̄ (x barre)')">
+        <span class="sym-char">x̄</span>
+        <span class="sym-name">x barre<br>moyenne</span>
+        <span class="sym-code">x̄</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('σ','σ (sigma)')">
+        <span class="sym-char">σ</span>
+        <span class="sym-name">sigma<br>écart type</span>
+        <span class="sym-code">σ</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('σ²','σ² (variance)')">
+        <span class="sym-char">σ²</span>
+        <span class="sym-name">sigma²<br>variance</span>
+        <span class="sym-code">σ²</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('μ','μ (mu)')">
+        <span class="sym-char">μ</span>
+        <span class="sym-name">mu<br>moyenne pop.</span>
+        <span class="sym-code">μ</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('Σ','Σ (Sigma somme)')">
+        <span class="sym-char">Σ</span>
+        <span class="sym-name">sigma majusc.<br>somme</span>
+        <span class="sym-code">Σ</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('n','n (effectif)')">
+        <span class="sym-char">n</span>
+        <span class="sym-name">n<br>effectif total</span>
+        <span class="sym-code">n</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('nᵢ','nᵢ')">
+        <span class="sym-char">nᵢ</span>
+        <span class="sym-name">nᵢ<br>effectif classe i</span>
+        <span class="sym-code">nᵢ</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('xᵢ','xᵢ')">
+        <span class="sym-char">xᵢ</span>
+        <span class="sym-name">xᵢ<br>valeur i</span>
+        <span class="sym-code">xᵢ</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('fᵢ','fᵢ')">
+        <span class="sym-char">fᵢ</span>
+        <span class="sym-name">fᵢ<br>fréquence i</span>
+        <span class="sym-code">fᵢ</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('Me','Me (médiane)')">
+        <span class="sym-char">Me</span>
+        <span class="sym-name">Me<br>médiane</span>
+        <span class="sym-code">Me</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('Q₁','Q₁')">
+        <span class="sym-char">Q₁</span>
+        <span class="sym-name">Q₁<br>1er quartile</span>
+        <span class="sym-code">Q₁</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('Q₃','Q₃')">
+        <span class="sym-char">Q₃</span>
+        <span class="sym-name">Q₃<br>3e quartile</span>
+        <span class="sym-code">Q₃</span>
+      </div>
+    </div>
+
+    <h3>Opérateurs et symboles généraux</h3>
+    <div class="symbols-grid" style="margin-bottom:1.5rem;">
+      <div class="sym-chip" onclick="copyText('≈','≈ (environ)')">
+        <span class="sym-char">≈</span>
+        <span class="sym-name">environ égal</span>
+        <span class="sym-code">≈</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('≠','≠ (différent)')">
+        <span class="sym-char">≠</span>
+        <span class="sym-name">différent de</span>
+        <span class="sym-code">≠</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('≤','≤')">
+        <span class="sym-char">≤</span>
+        <span class="sym-name">inférieur ou égal</span>
+        <span class="sym-code">≤</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('≥','≥')">
+        <span class="sym-char">≥</span>
+        <span class="sym-name">supérieur ou égal</span>
+        <span class="sym-code">≥</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('∈','∈ (appartient)')">
+        <span class="sym-char">∈</span>
+        <span class="sym-name">appartient à</span>
+        <span class="sym-code">∈</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('√','√ (racine)')">
+        <span class="sym-char">√</span>
+        <span class="sym-name">racine carrée</span>
+        <span class="sym-code">√</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('²','² (exposant 2)')">
+        <span class="sym-char">²</span>
+        <span class="sym-name">exposant 2</span>
+        <span class="sym-code">²</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('³','³ (exposant 3)')">
+        <span class="sym-char">³</span>
+        <span class="sym-name">exposant 3</span>
+        <span class="sym-code">³</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('÷','÷ (division)')">
+        <span class="sym-char">÷</span>
+        <span class="sym-name">division</span>
+        <span class="sym-code">÷</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('×','× (fois)')">
+        <span class="sym-char">×</span>
+        <span class="sym-name">multiplication</span>
+        <span class="sym-code">×</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('∑','∑ (somme math)')">
+        <span class="sym-char">∑</span>
+        <span class="sym-name">somme (math)</span>
+        <span class="sym-code">∑</span>
+      </div>
+      <div class="sym-chip" onclick="copyText('→','→ (flèche)')">
+        <span class="sym-char">→</span>
+        <span class="sym-name">flèche droite</span>
+        <span class="sym-code">→</span>
+      </div>
+    </div>
+
+    <h3>Formules mathématiques complètes (à copier)</h3>
+    <div class="cards">
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Moyenne x̄</div>
+          <div class="card-symbol" onclick="copyText('x̄','x̄')">x̄</div>
+        </div>
+        <div class="card-formula" onclick="copyText('x̄ = (1/n) × Σxᵢ','Formule moyenne')">
+          <span>x̄ = (1/n) × Σxᵢ</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Somme de toutes les valeurs divisée par l'effectif total.</div>
+      </div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Écart type σ</div>
+          <div class="card-symbol" onclick="copyText('σ','σ')">σ</div>
+        </div>
+        <div class="card-formula" onclick="copyText('σ = √( (1/n) × Σ(xᵢ - x̄)² )','Formule écart type')">
+          <span>σ = √( (1/n) × Σ(xᵢ - x̄)² )</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Racine carrée de la variance. Mesure la dispersion autour de la moyenne.</div>
+      </div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Variance σ²</div>
+          <div class="card-symbol" onclick="copyText('σ²','σ²')">σ²</div>
+        </div>
+        <div class="card-formula" onclick="copyText('σ² = (1/n) × Σ(xᵢ - x̄)²','Formule variance')">
+          <span>σ² = (1/n) × Σ(xᵢ - x̄)²</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Carré de l'écart type. Toujours positive ou nulle.</div>
+      </div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Étendue e</div>
+          <div class="card-symbol" onclick="copyText('e = max - min','étendue')">e</div>
+        </div>
+        <div class="card-formula" onclick="copyText('e = max(xᵢ) - min(xᵢ)','Formule étendue')">
+          <span>e = max(xᵢ) - min(xᵢ)</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Plus grande valeur moins la plus petite.</div>
+      </div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Écart interquartile</div>
+          <div class="card-symbol" onclick="copyText('Q₃ - Q₁','EIQ')">EI</div>
+        </div>
+        <div class="card-formula" onclick="copyText('EI = Q₃ - Q₁','Écart interquartile')">
+          <span>EI = Q₃ - Q₁</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Contient 50 % des valeurs centrales. Moins sensible aux valeurs extrêmes.</div>
+      </div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Fréquence fᵢ</div>
+          <div class="card-symbol" onclick="copyText('fᵢ','fᵢ')">fᵢ</div>
+        </div>
+        <div class="card-formula" onclick="copyText('fᵢ = nᵢ / n','Formule fréquence')">
+          <span>fᵢ = nᵢ / n</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Effectif de la classe i divisé par l'effectif total. Σfᵢ = 1.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- INDICATEURS DE POSITION -->
+  <section class="section" id="indicateurs">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2>Indicateurs de position</h2>
+    </div>
+
+    <div class="ftable-wrap">
+      <table class="ftable">
+        <thead>
+          <tr>
+            <th>Indicateur</th>
+            <th>Symbole</th>
+            <th>Définition</th>
+            <th>Quand l'utiliser</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fname">Moyenne <span class="badge-imp">incontournable</span></td>
+            <td><span class="fmath" style="cursor:pointer" onclick="copyText('x̄','x̄')">x̄</span></td>
+            <td class="fdesc">Somme ÷ effectif total</td>
+            <td class="fdesc">Série sans valeurs aberrantes</td>
+          </tr>
+          <tr>
+            <td class="fname">Médiane</td>
+            <td><span class="fmath" style="cursor:pointer" onclick="copyText('Me','Me')">Me</span></td>
+            <td class="fdesc">Valeur qui divise la série en deux moitiés égales</td>
+            <td class="fdesc">Présence de valeurs extrêmes</td>
+          </tr>
+          <tr>
+            <td class="fname">Mode</td>
+            <td><span class="fmath" style="cursor:pointer" onclick="copyText('Mo','Mo')">Mo</span></td>
+            <td class="fdesc">Valeur la plus fréquente</td>
+            <td class="fdesc">Données qualitatives ou catégorielles</td>
+          </tr>
+          <tr>
+            <td class="fname">1er quartile</td>
+            <td><span class="fmath" style="cursor:pointer" onclick="copyText('Q₁','Q₁')">Q₁</span></td>
+            <td class="fdesc">25 % des valeurs sont inférieures</td>
+            <td class="fdesc">Analyse de distribution</td>
+          </tr>
+          <tr>
+            <td class="fname">3e quartile</td>
+            <td><span class="fmath" style="cursor:pointer" onclick="copyText('Q₃','Q₃')">Q₃</span></td>
+            <td class="fdesc">75 % des valeurs sont inférieures</td>
+            <td class="fdesc">Analyse de distribution</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tip blue" style="margin-top:1rem;">
+      <span class="tip-icon">ℹ</span>
+      <div><strong>Comment trouver la médiane à la main ?</strong> Trier la série par ordre croissant. Si n impair → valeur du milieu. Si n pair → moyenne des deux valeurs centrales.</div>
+    </div>
+    <div class="tip gold">
+      <span class="tip-icon">★</span>
+      <div><strong>Quartiles à la main :</strong> Q₁ = médiane de la première moitié, Q₃ = médiane de la seconde moitié (sans inclure la médiane si n est impair).</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FORMULES EXCEL -->
+  <section class="section" id="excel">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2>Formules Excel complètes</h2>
+    </div>
+    <div class="tip blue" style="margin-bottom:1.2rem;">
+      <span class="tip-icon">ℹ</span>
+      <div>Clique sur une formule pour la copier. Remplace <strong>A1:A20</strong> par ta vraie plage de données.</div>
+    </div>
+
+    <div class="ftable-wrap">
+      <table class="ftable">
+        <thead>
+          <tr><th>Ce qu'on calcule</th><th>Formule Excel</th><th>Symbole math</th><th>Note</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fname">Effectif total</td>
+            <td><span class="fformula" onclick="copyText('=NB(A1:A20)','=NB()')">=NB(A1:A20)</span></td>
+            <td class="fmath">n</td>
+            <td class="fdesc">Compte les cellules numériques</td>
+          </tr>
+          <tr>
+            <td class="fname">Somme</td>
+            <td><span class="fformula" onclick="copyText('=SOMME(A1:A20)','=SOMME()')">=SOMME(A1:A20)</span></td>
+            <td class="fmath">Σxᵢ</td>
+            <td class="fdesc">Addition de toute la plage</td>
+          </tr>
+          <tr>
+            <td class="fname">Moyenne <span class="badge-imp">★</span></td>
+            <td><span class="fformula" onclick="copyText('=MOYENNE(A1:A20)','=MOYENNE()')">=MOYENNE(A1:A20)</span></td>
+            <td class="fmath">x̄</td>
+            <td class="fdesc">Calcule Σxᵢ / n automatiquement</td>
+          </tr>
+          <tr>
+            <td class="fname">Médiane</td>
+            <td><span class="fformula" onclick="copyText('=MEDIANE(A1:A20)','=MEDIANE()')">=MEDIANE(A1:A20)</span></td>
+            <td class="fmath">Me</td>
+            <td class="fdesc">Trie et prend la valeur centrale</td>
+          </tr>
+          <tr>
+            <td class="fname">Mode</td>
+            <td><span class="fformula" onclick="copyText('=MODE(A1:A20)','=MODE()')">=MODE(A1:A20)</span></td>
+            <td class="fmath">Mo</td>
+            <td class="fdesc">La valeur la plus fréquente</td>
+          </tr>
+          <tr>
+            <td class="fname">Minimum</td>
+            <td><span class="fformula" onclick="copyText('=MIN(A1:A20)','=MIN()')">=MIN(A1:A20)</span></td>
+            <td class="fmath">min</td>
+            <td class="fdesc">Plus petite valeur de la série</td>
+          </tr>
+          <tr>
+            <td class="fname">Maximum</td>
+            <td><span class="fformula" onclick="copyText('=MAX(A1:A20)','=MAX()')">=MAX(A1:A20)</span></td>
+            <td class="fmath">max</td>
+            <td class="fdesc">Plus grande valeur de la série</td>
+          </tr>
+          <tr>
+            <td class="fname">Étendue</td>
+            <td><span class="fformula" onclick="copyText('=MAX(A1:A20)-MIN(A1:A20)','=Étendue')">=MAX(A1:A20)-MIN(A1:A20)</span></td>
+            <td class="fmath">e</td>
+            <td class="fdesc">Max − Min en une formule</td>
+          </tr>
+          <tr>
+            <td class="fname">Écart type σ <span class="badge-imp">★</span></td>
+            <td><span class="fformula" onclick="copyText('=ECARTYPE.PEARSON(A1:A20)','=ECARTYPE.PEARSON()')">=ECARTYPE.PEARSON(A1:A20)</span></td>
+            <td class="fmath">σ</td>
+            <td class="fdesc">Population entière → à utiliser en seconde</td>
+          </tr>
+          <tr>
+            <td class="fname">Variance σ²</td>
+            <td><span class="fformula" onclick="copyText('=VAR.P(A1:A20)','=VAR.P()')">=VAR.P(A1:A20)</span></td>
+            <td class="fmath">σ²</td>
+            <td class="fdesc">Carré de l'écart type population</td>
+          </tr>
+          <tr>
+            <td class="fname">1er quartile Q₁</td>
+            <td><span class="fformula" onclick="copyText('=QUARTILE(A1:A20;1)','=QUARTILE Q1')">=QUARTILE(A1:A20;1)</span></td>
+            <td class="fmath">Q₁</td>
+            <td class="fdesc">Argument 1 = premier quartile</td>
+          </tr>
+          <tr>
+            <td class="fname">3e quartile Q₃</td>
+            <td><span class="fformula" onclick="copyText('=QUARTILE(A1:A20;3)','=QUARTILE Q3')">=QUARTILE(A1:A20;3)</span></td>
+            <td class="fmath">Q₃</td>
+            <td class="fdesc">Argument 3 = troisième quartile</td>
+          </tr>
+          <tr>
+            <td class="fname">Écart interquartile</td>
+            <td><span class="fformula" onclick="copyText('=QUARTILE(A1:A20;3)-QUARTILE(A1:A20;1)','=EIQ')">=QUARTILE(A1:A20;3)-QUARTILE(A1:A20;1)</span></td>
+            <td class="fmath">Q₃−Q₁</td>
+            <td class="fdesc">Q3 − Q1 en une seule formule</td>
+          </tr>
+          <tr>
+            <td class="fname">Fréquence d'une valeur</td>
+            <td><span class="fformula" onclick="copyText('=NB.SI(A1:A20;valeur)/NB(A1:A20)','=Fréquence')">=NB.SI(A1:A20;valeur)/NB(A1:A20)</span></td>
+            <td class="fmath">fᵢ</td>
+            <td class="fdesc">Remplace "valeur" par le nombre cherché</td>
+          </tr>
+          <tr>
+            <td class="fname">Rang percentile</td>
+            <td><span class="fformula" onclick="copyText('=RANG.POURCENTAGE(A1:A20;valeur)','=RANG%)')">=RANG.POURCENTAGE(A1:A20;valeur)</span></td>
+            <td class="fmath">%</td>
+            <td class="fdesc">Position relative d'une valeur dans la série</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SÉRIE PONDÉRÉE -->
+  <section class="section" id="ponderee">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2>Série avec effectifs (pondérée)</h2>
+    </div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:1.2rem;">Quand tu as un tableau avec les valeurs en colonne A et leurs effectifs (nombre de fois) en colonne B.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Effectif total</div>
+        </div>
+        <div class="card-formula" onclick="copyText('=SOMME(B1:B10)','Effectif total pondéré')">
+          <span>=SOMME(B1:B10)</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Somme de tous les effectifs nᵢ = n total.</div>
+      </div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Moyenne pondérée x̄</div>
+          <div class="card-symbol" onclick="copyText('x̄','x̄')">x̄</div>
+        </div>
+        <div class="card-formula" onclick="copyText('=SOMMEPROD(A1:A10;B1:B10)/SOMME(B1:B10)','Moyenne pondérée')">
+          <span>=SOMMEPROD(A1:A10;B1:B10)/SOMME(B1:B10)</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Σ(xᵢ × nᵢ) ÷ Σnᵢ — sans colonne intermédiaire.</div>
+      </div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-name">Formule mathématique</div>
+        </div>
+        <div class="card-formula" onclick="copyText('x̄ = Σ(xᵢ × nᵢ) / Σnᵢ','Formule math pondérée')">
+          <span>x̄ = Σ(xᵢ × nᵢ) / Σnᵢ</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Chaque valeur compte proportionnellement à son effectif.</div>
+      </div>
+    </div>
+
+    <div class="tip gold" style="margin-top:1rem;">
+      <span class="tip-icon">★</span>
+      <div><strong>SOMMEPROD</strong> calcule A1×B1 + A2×B2 + … + A10×B10 automatiquement. C'est la formule la plus utile pour les séries pondérées.</div>
+    </div>
+
+    <div class="example">
+      <div class="example-header">Exemple — tableau de notes avec effectifs</div>
+      <div class="example-body">
+        <p>Notes en A : <strong>8, 10, 12, 14, 16</strong> | Effectifs en B : <strong>2, 5, 8, 4, 1</strong></p>
+        <p>Effectif total : <span class="hi">=SOMME(B1:B5)</span> → <span class="res">n = 20</span></p>
+        <p>SOMMEPROD : 8×2 + 10×5 + 12×8 + 14×4 + 16×1 = 16+50+96+56+16 = <strong>234</strong></p>
+        <p>Moyenne : <span class="hi">=SOMMEPROD(A1:A5;B1:B5)/SOMME(B1:B5)</span> → <span class="res">234 ÷ 20 = 11,7</span></p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- DISPERSION -->
+  <section class="section" id="dispersion">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2>Indicateurs de dispersion</h2>
+    </div>
+
+    <div class="cards" style="margin-bottom:1.5rem;">
+      <div class="card">
+        <div class="card-name" style="margin-bottom:6px;">Étendue e</div>
+        <div class="math-formula">e = max − min</div>
+        <div class="card-formula" onclick="copyText('=MAX(A1:A20)-MIN(A1:A20)','Étendue Excel')">
+          <span>=MAX(A1:A20)-MIN(A1:A20)</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Simple mais très sensible aux valeurs aberrantes.</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:6px;">Écart interquartile EI</div>
+        <div class="math-formula">EI = Q₃ − Q₁</div>
+        <div class="card-formula" onclick="copyText('=QUARTILE(A1:A20;3)-QUARTILE(A1:A20;1)','EIQ Excel')">
+          <span>=QUARTILE(A1:A20;3)-QUARTILE(A1:A20;1)</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Couvre 50 % central. Robuste aux valeurs extrêmes.</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:6px;">Écart type σ</div>
+        <div class="math-formula">σ = √( (1/n)·Σ(xᵢ−x̄)² )</div>
+        <div class="card-formula" onclick="copyText('=ECARTYPE.PEARSON(A1:A20)','σ Excel')">
+          <span>=ECARTYPE.PEARSON(A1:A20)</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Dispersion globale autour de la moyenne. Plus σ est grand, plus les données sont dispersées.</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:6px;">Variance σ²</div>
+        <div class="math-formula">σ² = (1/n)·Σ(xᵢ−x̄)²</div>
+        <div class="card-formula" onclick="copyText('=VAR.P(A1:A20)','Variance Excel')">
+          <span>=VAR.P(A1:A20)</span>
+          <span class="copy-icon">copier</span>
+        </div>
+        <div class="card-desc">Carré de σ. Toujours ≥ 0. Si σ² = 0 → toutes les valeurs sont identiques.</div>
+      </div>
+    </div>
+
+    <div class="tip green">
+      <span class="tip-icon">✓</span>
+      <div><strong>Interpréter σ :</strong> si σ est faible → les données sont regroupées près de la moyenne. Si σ est élevé → les données sont très étalées. En général σ &lt; 2 est faible pour des notes sur 20.</div>
+    </div>
+    <div class="tip red">
+      <span class="tip-icon">!</span>
+      <div><strong>Ne pas confondre :</strong> <strong>ECARTYPE.PEARSON</strong> (population entière, à utiliser en seconde) ≠ <strong>ECARTYPE.STANDARD</strong> (échantillon, pour les statistiques avancées). Le premier divise par n, le second par n−1.</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- EXEMPLE COMPLET -->
+  <section class="section" id="exemple">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2>Exemple complet corrigé</h2>
+    </div>
+
+    <div class="tip blue" style="margin-bottom:1rem;">
+      <span class="tip-icon">ℹ</span>
+      <div>Série : notes d'un devoir en A1:A12 → <strong>6, 8, 9, 11, 12, 13, 13, 14, 15, 16, 17, 20</strong></div>
+    </div>
+
+    <div class="example">
+      <div class="example-header">Résultats attendus — à vérifier avec Excel</div>
+      <div class="example-body">
+        <p><strong>n (effectif) :</strong> <span class="hi">=NB(A1:A12)</span> → <span class="res">12</span></p>
+        <p><strong>Somme :</strong> <span class="hi">=SOMME(A1:A12)</span> → <span class="res">154</span></p>
+        <p><strong>x̄ (moyenne) :</strong> <span class="hi">=MOYENNE(A1:A12)</span> → <span class="res">≈ 12,83</span></p>
+        <p><strong>Me (médiane) :</strong> <span class="hi">=MEDIANE(A1:A12)</span> → <span class="res">12,5</span> (moy. de la 6e et 7e valeur = (13+12)/2)</p>
+        <p><strong>Min / Max :</strong> <span class="hi">=MIN()</span> → <span class="res">6</span> | <span class="hi">=MAX()</span> → <span class="res">20</span></p>
+        <p><strong>e (étendue) :</strong> <span class="hi">=MAX()-MIN()</span> → <span class="res">14</span></p>
+        <p><strong>Q₁ :</strong> <span class="hi">=QUARTILE(A1:A12;1)</span> → <span class="res">9,75</span></p>
+        <p><strong>Q₃ :</strong> <span class="hi">=QUARTILE(A1:A12;3)</span> → <span class="res">15,25</span></p>
+        <p><strong>EI (interquartile) :</strong> Q₃ − Q₁ → <span class="res">5,5</span></p>
+        <p><strong>σ (écart type) :</strong> <span class="hi">=ECARTYPE.PEARSON(A1:A12)</span> → <span class="res">≈ 3,6</span></p>
+        <p><strong>σ² (variance) :</strong> <span class="hi">=VAR.P(A1:A12)</span> → <span class="res">≈ 13,1</span></p>
+      </div>
+    </div>
+
+    <div class="tip gold" style="margin-top:1rem;">
+      <span class="tip-icon">★</span>
+      <div><strong>Interprétation :</strong> La moyenne (12,83) est proche de la médiane (12,5) → la distribution est assez symétrique. L'écart type de 3,6 indique une dispersion modérée (la moitié des notes est dans l'intervalle [x̄ − σ ; x̄ + σ] = [9,2 ; 16,4]).</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- PIÈGES -->
+  <section class="section" id="pieges">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2>Pièges fréquents & astuces</h2>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-name" style="margin-bottom:8px;color:var(--coral);">; pas ,</div>
+        <div class="card-desc">En Excel français les arguments se séparent avec <strong>;</strong> (point-virgule). Exemple : <code style="font-family:var(--mono);font-size:12px;color:var(--accent2);">QUARTILE(A1:A20;1)</code> et non pas <code style="font-family:var(--mono);font-size:12px;">QUARTILE(A1:A20,1)</code>.</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:8px;color:var(--coral);">Cellules vides</div>
+        <div class="card-desc">NB() ignore les cellules vides et texte. Si tu as du texte dans ta colonne, utilise <code style="font-family:var(--mono);font-size:12px;color:var(--accent2);">NB.SI(A1:A20;"&lt;&gt;"&"")</code> pour compter les non-vides.</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:8px;color:var(--coral);">PEARSON vs STANDARD</div>
+        <div class="card-desc">Toujours utiliser <strong>ECARTYPE.PEARSON</strong> en seconde (divise par n). ECARTYPE.STANDARD divise par n−1 (pour statistiques avancées / STT).</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:8px;color:var(--gold);">Nommer une plage</div>
+        <div class="card-desc">Sélectionne A1:A20 → zone de nom en haut à gauche → tape <strong>Notes</strong> → Entrée. Tu peux ensuite écrire <code style="font-family:var(--mono);font-size:12px;color:var(--accent2);">=MOYENNE(Notes)</code>.</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:8px;color:var(--gold);">Arrondir l'affichage</div>
+        <div class="card-desc">Pour 2 décimales sans changer la valeur : <strong>Ctrl+1</strong> → Nombre → 2 décimales. Ou utilise <code style="font-family:var(--mono);font-size:12px;color:var(--accent2);">=ARRONDI(MOYENNE(A1:A20);2)</code>.</div>
+      </div>
+      <div class="card">
+        <div class="card-name" style="margin-bottom:8px;color:var(--green);">Résumé statistique rapide</div>
+        <div class="card-desc">Dans une cellule vide tape <code style="font-family:var(--mono);font-size:12px;color:var(--accent2);">=MOYENNE(A1:A20)&" ± "&ECARTYPE.PEARSON(A1:A20)</code> pour afficher "12.5 ± 3.2" directement.</div>
+      </div>
+    </div>
+
+    <div class="tip green" style="margin-top:1.5rem;">
+      <span class="tip-icon">✓</span>
+      <div><strong>Récapitulatif des 5 formules à maîtriser absolument :</strong><br>
+      <code style="font-family:var(--mono);font-size:12px;">=MOYENNE()</code> · <code style="font-family:var(--mono);font-size:12px;">=MEDIANE()</code> · <code style="font-family:var(--mono);font-size:12px;">=ECARTYPE.PEARSON()</code> · <code style="font-family:var(--mono);font-size:12px;">=QUARTILE(;1)</code> · <code style="font-family:var(--mono);font-size:12px;">=QUARTILE(;3)</code></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+function copyText(text, label) {
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.textContent = '«\u00a0' + (label || text) + '\u00a0» copié !';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1800);
+  });
+}
+
+// Nav active scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a');
+function updateNav() {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY + 120 >= s.offsetTop) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', updateNav, { passive: true });
+</script>
+</body>
+</html>
